@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buku Teks &amp; DSKP — Sains Tahun 1</title>
+
+    <!-- Tailwind CSS untuk reka bentuk responsif dan moden -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts: Cormorant Garamond & Plus Jakarta Sans (Tema Asal) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome untuk ikon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* =========================================================
+           1. GAYA ASAS & TIPOGRAFI (TEMA BIRU PASTEL KACA)
+           ========================================================= */
+        html {
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+            background: linear-gradient(135deg, #EFF6FF 0%, #F8FAFC 50%, #E0F2FE 100%);
+            color: #334155;
+        }
+
+        /* Pastikan sentuhan & klik dalam iframe Jotform responsif */
+        a, button {
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .serif-title {
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        /* Kesan Kaca Premium (Glassmorphism) */
+        .premium-glass {
+            background: rgba(255, 255, 255, 0.58);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.85);
+        }
+
+        .soft-glass-card {
+            background: rgba(255, 255, 255, 0.72);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 14px 35px rgba(147, 197, 253, 0.16);
+            transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+                        box-shadow 0.35s ease,
+                        border-color 0.35s ease;
+        }
+
+        .soft-glass-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 22px 44px rgba(96, 165, 250, 0.22);
+            border-color: rgba(191, 219, 254, 0.95);
+        }
+
+        /* =========================================================
+           2. ANIMASI CAHAYA LATAR & KEMUNCULAN
+           ========================================================= */
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 0.35; transform: scale(1); }
+            50% { opacity: 0.55; transform: scale(1.06); }
+        }
+
+        .bg-glow-soft {
+            animation: pulseGlow 10s ease-in-out infinite;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(14px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-up {
+            animation: fadeUp 0.65s ease-out both;
+        }
+
+        /* =========================================================
+           3. BINGKAI KULIT BUKU TEKS & DSKP (PENUH BINGKAI)
+           ========================================================= */
+        .book-cover-frame {
+            position: relative;
+            aspect-ratio: 3 / 4.2;
+            border-radius: 14px;
+            overflow: hidden;
+            background: linear-gradient(145deg, #EFF6FF 0%, #DBEAFE 55%, #BFDBFE 100%);
+            box-shadow:
+                -6px 12px 24px rgba(59, 130, 246, 0.16),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.65);
+            transition: transform 0.35s ease, box-shadow 0.35s ease;
+        }
+
+        .book-cover-frame:hover {
+            transform: translateY(-3px) scale(1.01);
+            box-shadow:
+                -8px 18px 32px rgba(59, 130, 246, 0.24),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.8);
+        }
+
+        /* Kesan tulang buku di sebelah kiri (Muka Depan) */
+        .book-cover-frame::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            width: 14px;
+            background: linear-gradient(90deg, rgba(15, 23, 42, 0.18), rgba(255, 255, 255, 0.32) 45%, rgba(15, 23, 42, 0.06) 75%, transparent);
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        /* Kesan tulang buku di sebelah kanan (Kulit Belakang) */
+        .book-cover-frame.back-cover::after {
+            left: auto;
+            right: 0;
+            background: linear-gradient(270deg, rgba(15, 23, 42, 0.18), rgba(255, 255, 255, 0.32) 45%, rgba(15, 23, 42, 0.06) 75%, transparent);
+        }
+
+        /* Bingkai Kulit DSKP Lebih Lebar & Paparan Penuh Tanpa Terpotong */
+        .dskp-cover-frame {
+            position: relative;
+            width: 100%;
+            border-radius: 18px;
+            overflow: hidden;
+            background: #ffffff;
+            border: 1px solid rgba(191, 219, 254, 0.85);
+            box-shadow: 0 16px 34px rgba(59, 130, 246, 0.16);
+            transition: transform 0.35s ease, box-shadow 0.35s ease;
+        }
+
+        .dskp-cover-frame:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 22px 42px rgba(59, 130, 246, 0.24);
+        }
+
+        /* =========================================================
+           4. TAB PENAPIS, BAR SKROL & NOTIFIKASI TOAST
+           ========================================================= */
+        .tab-pill {
+            transition: all 0.25s ease;
+        }
+
+        .tab-pill.active {
+            background: linear-gradient(135deg, #60A5FA 0%, #5B8BD4 100%);
+            color: #ffffff;
+            border-color: transparent;
+            box-shadow: 0 8px 18px rgba(96, 165, 250, 0.35);
+        }
+
+        .tab-pill.active:hover {
+            color: #ffffff;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(147, 197, 253, 0.5);
+            border-radius: 9999px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(96, 165, 250, 0.8);
+        }
+
+        /* Notifikasi Toast Ringkas (Serasi Iframe Jotform) */
+        .toast-notice {
+            transform: translate(-50%, 16px);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease, transform 0.25s ease;
+        }
+
+        .toast-notice.show {
+            transform: translate(-50%, 0);
+            opacity: 1;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .bg-glow-soft,
+            .animate-fade-up {
+                animation: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen relative overflow-x-hidden selection:bg-[#BFDBFE] selection:text-slate-800">
+
+    <!-- Kanvas untuk zarah cahaya biru lembut yang terapung -->
+    <canvas id="sparkleCanvas" class="fixed inset-0 pointer-events-none z-0" aria-hidden="true"></canvas>
+
+    <!-- Latar Belakang Cahaya Biru Pastel Lembut -->
+    <div class="fixed top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[38vw] h-[38vw] rounded-full bg-[#DBEAFE] blur-[110px] bg-glow-soft pointer-events-none z-0" aria-hidden="true"></div>
+    <div class="fixed bottom-1/4 right-1/4 translate-x-1/2 translate-y-1/2 w-[42vw] h-[42vw] rounded-full bg-[#E0F2FE] blur-[125px] bg-glow-soft pointer-events-none z-0" style="animation-delay: -5s;" aria-hidden="true"></div>
+
+    <!-- =========================================================
+         KONTENA UTAMA PORTAL BUKU TEKS & DSKP
+         ========================================================= -->
+    <div class="relative z-10 max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
+
+        <main class="premium-glass rounded-[2rem] sm:rounded-[2.75rem] p-5 sm:p-9 lg:p-11 shadow-2xl relative overflow-hidden animate-fade-up">
+
+            <!-- Hiasan Cahaya Dalaman Kad -->
+            <div class="absolute -right-28 -top-28 w-80 h-80 rounded-full bg-[#DBEAFE] blur-[130px] opacity-55 pointer-events-none" aria-hidden="true"></div>
+            <div class="absolute -left-28 -bottom-28 w-80 h-80 rounded-full bg-[#E0F2FE] blur-[130px] opacity-55 pointer-events-none" aria-hidden="true"></div>
+
+            <!-- =========================================================
+                 BAHAGIAN KEPALA & NAVIGASI TAB
+                 ========================================================= -->
+            <header class="relative z-10 text-center mb-9 sm:mb-11">
+                <span class="inline-block px-3.5 py-1 rounded-full bg-[#EFF6FF] border border-[#BFDBFE]/80 text-[10px] font-semibold uppercase tracking-[0.25em] text-[#5B8BD4] mb-3 shadow-sm">
+                    Portal Sumber • Sains Tahun 1
+                </span>
+
+                <h1 class="serif-title text-4xl sm:text-5xl md:text-6xl font-light text-slate-800 tracking-[0.16em] leading-tight">
+                    BUKU TEKS &amp; DSKP
+                </h1>
+
+                <p class="text-xs sm:text-sm text-slate-500 font-light mt-2.5 max-w-xl mx-auto leading-relaxed">
+                    Koleksi rujukan digital Buku Teks Sains Tahun 1 (KSSR Semakan) dan Dokumen Standard Kurikulum &amp; Pentaksiran (DSKP) rasmi Kementerian Pendidikan Malaysia.
+                </p>
+
+                <div class="w-24 h-[1px] bg-gradient-to-r from-transparent via-[#93C5FD] to-transparent mx-auto my-6"></div>
+
+                <!-- Bar Tab Penapis (Serasi Iframe & Skrin Sentuh Jotform) -->
+                <div class="inline-flex max-w-full items-center justify-center bg-white/60 border border-white/90 rounded-full p-2 shadow-sm">
+                    <nav class="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2" role="tablist" aria-label="Penapis bahagian">
+                        <button type="button" role="tab" aria-selected="true" aria-controls="sectionBukuTeks sectionDskp" data-tab="semua"
+                                class="tab-pill active min-h-[40px] px-4 py-2 rounded-full text-xs font-medium border border-blue-100/80 text-slate-600 hover:text-[#4A7EC7] cursor-pointer">
+                            <i class="fa-solid fa-layer-group mr-1.5"></i>Semua
+                        </button>
+                        <button type="button" role="tab" aria-selected="false" aria-controls="sectionBukuTeks" data-tab="bukuteks"
+                                class="tab-pill min-h-[40px] px-4 py-2 rounded-full text-xs font-medium bg-white/80 border border-blue-100/80 text-slate-600 hover:text-[#4A7EC7] cursor-pointer">
+                            <i class="fa-solid fa-book-open mr-1.5"></i>Buku Teks (2)
+                        </button>
+                        <button type="button" role="tab" aria-selected="false" aria-controls="sectionDskp" data-tab="dskp"
+                                class="tab-pill min-h-[40px] px-4 py-2 rounded-full text-xs font-medium bg-white/80 border border-blue-100/80 text-slate-600 hover:text-[#4A7EC7] cursor-pointer">
+                            <i class="fa-solid fa-file-shield mr-1.5"></i>DSKP
+                        </button>
+                    </nav>
+                </div>
+            </header>
+
+            <!-- =========================================================
+                 BAHAGIAN 01: 2 TAPAK KULIT BUKU TEKS SAINS TAHUN 1
+                 ========================================================= -->
+            <section id="sectionBukuTeks" class="relative z-10 mb-10 sm:mb-12" aria-labelledby="headingBukuTeks">
+                <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-2 mb-5">
+                    <div>
+                        <span class="text-[10px] font-semibold uppercase tracking-[0.24em] text-[#5B8BD4]">Bahagian 01</span>
+                        <h2 id="headingBukuTeks" class="serif-title text-2xl sm:text-3xl font-medium text-slate-800 tracking-wide">
+                            Buku Teks Sains Tahun 1
+                        </h2>
+                    </div>
+                    <p class="text-[11px] sm:text-xs text-slate-400">
+                        <i class="fa-solid fa-hand-pointer mr-1 text-[#60A5FA]"></i>
+                        Klik kulit buku atau butang di bawah untuk membuka Buku Teks Digital (AnyFlip)
+                    </p>
+                </div>
+
+                <!-- Grid 2 Tapak Kulit Buku Teks (Muka Depan & Kulit Belakang) -->
+                <div id="textbooksGrid" class="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6">
+
+                    <!-- Kad 1: Muka Depan Buku Teks Sains Tahun 1 -->
+                    <article class="soft-glass-card rounded-[1.75rem] p-5 sm:p-6 flex flex-col sm:flex-row gap-5 sm:gap-6 items-center sm:items-stretch">
+                        <a href="https://online.anyflip.com/njokh/zioe/mobile/index.html"
+                           target="_blank" rel="noopener noreferrer"
+                           class="w-44 sm:w-44 shrink-0 relative block self-center"
+                           aria-label="Buka Muka Depan Buku Teks Sains Tahun 1 dalam tab baharu">
+                            <div class="book-cover-frame w-full">
+                                <img src="https://res.cloudinary.com/rjl90t75/image/upload/v1795599239/Screenshot_2026-11-25_172659_qcn0gs.png"
+                                     alt="Muka Depan Buku Teks Sains Tahun 1"
+                                     class="cover-img absolute inset-0 w-full h-full object-cover object-center block">
+                                <div class="cover-fallback hidden absolute inset-0 w-full h-full bg-gradient-to-br from-[#EFF6FF] via-[#DBEAFE] to-[#BFDBFE] flex flex-col items-center justify-center p-4 text-center">
+                                    <i class="fa-solid fa-book text-3xl text-[#5B8BD4]/70 mb-2"></i>
+                                    <span class="text-xs font-medium text-[#4A7EC7]">Muka Depan Sains Tahun 1</span>
+                                </div>
+                            </div>
+                        </a>
+
+                        <div class="flex-1 flex flex-col justify-between text-center sm:text-left">
+                            <div>
+                                <div class="flex flex-wrap items-center justify-center sm:justify-start gap-2 mb-2.5">
+                                    <span class="px-2.5 py-1 rounded-full bg-[#EFF6FF] border border-[#BFDBFE]/80 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#5B8BD4]">
+                                        Muka Depan
+                                    </span>
+                                    <span class="px-2.5 py-1 rounded-full bg-white/85 border border-blue-100 text-[10px] font-medium text-slate-500">
+                                        KSSR Semakan • Flipbook Digital
+                                    </span>
+                                </div>
+
+                                <h3 class="serif-title text-2xl font-semibold text-slate-800 leading-snug mb-2">
+                                    Muka Depan Buku Teks Sains Tahun 1
+                                </h3>
+
+                                <p class="text-xs sm:text-[13px] text-slate-500 font-light leading-relaxed mb-5">
+                                    Paparan muka depan rasmi Buku Teks Sains Tahun 1 (KSSR Semakan). Klik butang di bawah untuk membuka dan membaca buku teks digital secara penuh.
+                                </p>
+                            </div>
+
+                            <div class="flex flex-wrap items-center justify-center sm:justify-start gap-2.5 pt-3 border-t border-blue-100/70">
+                                <a href="https://online.anyflip.com/njokh/zioe/mobile/index.html"
+                                   target="_blank" rel="noopener noreferrer"
+                                   class="min-h-[42px] px-5 py-2.5 rounded-full bg-gradient-to-r from-[#60A5FA] to-[#5B8BD4] text-white text-xs font-medium shadow-md hover:brightness-105 transition-all inline-flex items-center gap-2 cursor-pointer">
+                                    <i class="fa-solid fa-book-open-reader"></i>
+                                    <span>Buka Buku Teks</span>
+                                    <i class="fa-solid fa-arrow-up-right-from-square text-[10px] opacity-85"></i>
+                                </a>
+                                <button type="button"
+                                        data-copy-url="https://online.anyflip.com/njokh/zioe/mobile/index.html"
+                                        data-copy-label="Pautan Buku Teks"
+                                        class="copy-link-btn min-h-[42px] px-4 py-2.5 rounded-full bg-white/85 border border-blue-100 text-[#4A7EC7] hover:bg-[#EFF6FF] text-xs font-medium transition-all inline-flex items-center gap-1.5 cursor-pointer"
+                                        aria-label="Salin pautan Buku Teks Sains Tahun 1">
+                                    <i class="fa-regular fa-copy"></i>
+                                    <span>Salin Pautan</span>
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Kad 2: Kulit Belakang Buku Teks Sains Tahun 1 -->
+                    <article class="soft-glass-card rounded-[1.75rem] p-5 sm:p-6 flex flex-col sm:flex-row gap-5 sm:gap-6 items-center sm:items-stretch">
+                        <a href="https://online.anyflip.com/njokh/zioe/mobile/index.html"
+                           target="_blank" rel="noopener noreferrer"
+                           class="w-44 sm:w-44 shrink-0 relative block self-center"
+                           aria-label="Buka Kulit Belakang Buku Teks Sains Tahun 1 dalam tab baharu">
+                            <div class="book-cover-frame back-cover w-full">
+                                <img src="https://res.cloudinary.com/rjl90t75/image/upload/v1795599239/Screenshot_2026-11-25_172718_solbkz.png"
+                                     alt="Kulit Belakang Buku Teks Sains Tahun 1"
+                                     class="cover-img absolute inset-0 w-full h-full object-cover object-center block">
+                                <div class="cover-fallback hidden absolute inset-0 w-full h-full bg-gradient-to-br from-[#EFF6FF] via-[#DBEAFE] to-[#BFDBFE] flex flex-col items-center justify-center p-4 text-center">
+                                    <i class="fa-solid fa-book text-3xl text-[#5B8BD4]/70 mb-2"></i>
+                                    <span class="text-xs font-medium text-[#4A7EC7]">Kulit Belakang Sains Tahun 1</span>
+                                </div>
+                            </div>
+                        </a>
+
+                        <div class="flex-1 flex flex-col justify-between text-center sm:text-left">
+                            <div>
+                                <div class="flex flex-wrap items-center justify-center sm:justify-start gap-2 mb-2.5">
+                                    <span class="px-2.5 py-1 rounded-full bg-[#EFF6FF] border border-[#BFDBFE]/80 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#5B8BD4]">
+                                        Kulit Belakang
+                                    </span>
+                                    <span class="px-2.5 py-1 rounded-full bg-white/85 border border-blue-100 text-[10px] font-medium text-slate-500">
+                                        KSSR Semakan • Flipbook Digital
+                                    </span>
+                                </div>
+
+                                <h3 class="serif-title text-2xl font-semibold text-slate-800 leading-snug mb-2">
+                                    Kulit Belakang Buku Teks Sains Tahun 1
+                                </h3>
+
+                                <p class="text-xs sm:text-[13px] text-slate-500 font-light leading-relaxed mb-5">
+                                    Paparan kulit belakang Buku Teks Sains Tahun 1 (KSSR Semakan) yang memuatkan sinopsis dan maklumat penerbitan. Klik butang di bawah untuk akses terus ke buku teks digital.
+                                </p>
+                            </div>
+
+                            <div class="flex flex-wrap items-center justify-center sm:justify-start gap-2.5 pt-3 border-t border-blue-100/70">
+                                <a href="https://online.anyflip.com/njokh/zioe/mobile/index.html"
+                                   target="_blank" rel="noopener noreferrer"
+                                   class="min-h-[42px] px-5 py-2.5 rounded-full bg-gradient-to-r from-[#60A5FA] to-[#5B8BD4] text-white text-xs font-medium shadow-md hover:brightness-105 transition-all inline-flex items-center gap-2 cursor-pointer">
+                                    <i class="fa-solid fa-book-open-reader"></i>
+                                    <span>Buka Buku Teks</span>
+                                    <i class="fa-solid fa-arrow-up-right-from-square text-[10px] opacity-85"></i>
+                                </a>
+                                <button type="button"
+                                        data-copy-url="https://online.anyflip.com/njokh/zioe/mobile/index.html"
+                                        data-copy-label="Pautan Buku Teks"
+                                        class="copy-link-btn min-h-[42px] px-4 py-2.5 rounded-full bg-white/85 border border-blue-100 text-[#4A7EC7] hover:bg-[#EFF6FF] text-xs font-medium transition-all inline-flex items-center gap-1.5 cursor-pointer"
+                                        aria-label="Salin pautan Buku Teks Sains Tahun 1">
+                                    <i class="fa-regular fa-copy"></i>
+                                    <span>Salin Pautan</span>
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+
+                </div>
+            </section>
+
+            <!-- =========================================================
+                 BAHAGIAN 02: TAPAK DSKP SAINS TAHUN 1
+                 ========================================================= -->
+            <section id="sectionDskp" class="relative z-10 mb-6" aria-labelledby="headingDskp">
+                <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-2 mb-5">
+                    <div>
+                        <span class="text-[10px] font-semibold uppercase tracking-[0.24em] text-[#5B8BD4]">Bahagian 02</span>
+                        <h2 id="headingDskp" class="serif-title text-2xl sm:text-3xl font-medium text-slate-800 tracking-wide">
+                            Dokumen Standard Kurikulum &amp; Pentaksiran (DSKP)
+                        </h2>
+                    </div>
+                    <p class="text-[11px] sm:text-xs text-slate-400">
+                        Rujukan rasmi Bahagian Pembangunan Kurikulum (BPK), KPM
+                    </p>
+                </div>
+
+                <!-- Kontena Kad Utama DSKP -->
+                <div id="dskpContainer">
+                    <article class="soft-glass-card rounded-[1.75rem] p-5 sm:p-7 flex flex-col lg:flex-row gap-6 lg:gap-8 items-center">
+
+                        <!-- Paparan Kulit DSKP Lebih Lebar & Penuh (Klik terus buka DSKP) -->
+                        <a href="https://bpk.moe.gov.my/kurikulum/kssr/kssr-tahun-1/32-08-dskp-kssr-tahun-1-sains-06122016/file"
+                           target="_blank" rel="noopener noreferrer"
+                           class="w-full max-w-[400px] lg:w-[380px] shrink-0 relative block"
+                           aria-label="Lihat DSKP Sains Tahun 1 (KSSR Semakan) dalam tab baharu">
+                            <div class="dskp-cover-frame">
+                                <img src="https://res.cloudinary.com/rjl90t75/image/upload/v1795599239/Screenshot_2026-11-25_173021_ge9pte.png"
+                                     alt="DSKP Sains Tahun 1 (KSSR Semakan)"
+                                     class="cover-img w-full h-auto block object-cover">
+                                <div class="cover-fallback hidden w-full min-h-[280px] bg-gradient-to-br from-[#EFF6FF] to-[#DBEAFE] flex flex-col items-center justify-center p-6 text-center">
+                                    <i class="fa-solid fa-file-pdf text-3xl text-[#5B8BD4] mb-2"></i>
+                                    <span class="text-xs font-medium text-[#4A7EC7]">Kulit DSKP Sains Tahun 1</span>
+                                </div>
+                            </div>
+                        </a>
+
+                        <!-- Perincian & Pautan DSKP -->
+                        <div class="flex-1 text-center lg:text-left">
+                            <div class="flex flex-wrap items-center justify-center lg:justify-start gap-2 mb-3">
+                                <span class="px-3 py-1 rounded-full bg-[#EFF6FF] border border-[#BFDBFE]/80 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#5B8BD4]">
+                                    Dokumen Rasmi
+                                </span>
+                                <span class="px-3 py-1 rounded-full bg-white/85 border border-blue-100 text-[11px] text-slate-500">
+                                    Kementerian Pendidikan Malaysia • Sains Tahun 1
+                                </span>
+                            </div>
+
+                            <h3 class="serif-title text-2xl sm:text-3xl font-semibold text-slate-800 leading-snug mb-3">
+                                DSKP Sains Tahun 1 (KSSR Semakan)
+                            </h3>
+
+                            <p class="text-xs sm:text-sm text-slate-500 font-light leading-relaxed mb-6 max-w-2xl mx-auto lg:mx-0">
+                                Dokumen Standard Kurikulum dan Pentaksiran (DSKP) rasmi Sains Tahun 1 (KSSR Semakan) oleh BPK KPM yang merangkumi Standard Kandungan, Standard Pembelajaran dan Standard Prestasi. Klik butang di bawah untuk melihat dokumen penuh.
+                            </p>
+
+                            <!-- Ringkasan 3 Tonggak DSKP -->
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 mb-6">
+                                <div class="px-3.5 py-2.5 rounded-xl bg-white/80 border border-blue-100/80 text-left flex items-center gap-2.5">
+                                    <span class="w-7 h-7 rounded-lg bg-[#EFF6FF] text-[#5B8BD4] flex items-center justify-center text-xs shrink-0">
+                                        <i class="fa-solid fa-bullseye"></i>
+                                    </span>
+                                    <span class="text-[11px] font-medium text-slate-600">Standard Kandungan</span>
+                                </div>
+                                <div class="px-3.5 py-2.5 rounded-xl bg-white/80 border border-blue-100/80 text-left flex items-center gap-2.5">
+                                    <span class="w-7 h-7 rounded-lg bg-[#EFF6FF] text-[#5B8BD4] flex items-center justify-center text-xs shrink-0">
+                                        <i class="fa-solid fa-graduation-cap"></i>
+                                    </span>
+                                    <span class="text-[11px] font-medium text-slate-600">Standard Pembelajaran</span>
+                                </div>
+                                <div class="px-3.5 py-2.5 rounded-xl bg-white/80 border border-blue-100/80 text-left flex items-center gap-2.5">
+                                    <span class="w-7 h-7 rounded-lg bg-[#EFF6FF] text-[#5B8BD4] flex items-center justify-center text-xs shrink-0">
+                                        <i class="fa-solid fa-award"></i>
+                                    </span>
+                                    <span class="text-[11px] font-medium text-slate-600">Standard Prestasi</span>
+                                </div>
+                            </div>
+
+                            <!-- Butang Tindakan DSKP -->
+                            <div class="flex flex-wrap items-center justify-center lg:justify-start gap-2.5">
+                                <a href="https://bpk.moe.gov.my/kurikulum/kssr/kssr-tahun-1/32-08-dskp-kssr-tahun-1-sains-06122016/file"
+                                   target="_blank" rel="noopener noreferrer"
+                                   class="min-h-[42px] px-5 py-2.5 rounded-full bg-gradient-to-r from-[#60A5FA] to-[#5B8BD4] text-white text-xs font-medium shadow-md hover:brightness-105 transition-all inline-flex items-center gap-2 cursor-pointer">
+                                    <i class="fa-solid fa-file-arrow-down"></i>
+                                    <span>Lihat DSKP Penuh</span>
+                                    <i class="fa-solid fa-arrow-up-right-from-square text-[10px] opacity-85"></i>
+                                </a>
+                                <button type="button"
+                                        data-copy-url="https://bpk.moe.gov.my/kurikulum/kssr/kssr-tahun-1/32-08-dskp-kssr-tahun-1-sains-06122016/file"
+                                        data-copy-label="Pautan DSKP"
+                                        class="copy-link-btn min-h-[42px] px-4 py-2.5 rounded-full bg-white/85 border border-blue-100 text-[#4A7EC7] hover:bg-[#EFF6FF] text-xs font-medium transition-all inline-flex items-center gap-1.5 cursor-pointer"
+                                        aria-label="Salin pautan DSKP Sains Tahun 1">
+                                    <i class="fa-regular fa-copy"></i>
+                                    <span>Salin Pautan</span>
+                                </button>
+                            </div>
+                        </div>
+
+                    </article>
+                </div>
+            </section>
+
+            <!-- Pengaki Minimalis -->
+            <footer class="relative z-10 mt-8 pt-6 border-t border-blue-100/80 text-center">
+                <p class="text-[11px] uppercase tracking-[0.22em] text-slate-400">
+                    Sains Tahun 1 • KSSR Semakan • Portal Rujukan Digital
+                </p>
+                <div class="flex justify-center items-center gap-2 mt-3" aria-hidden="true">
+                    <span class="w-1 h-1 rounded-full bg-[#93C5FD]/60"></span>
+                    <span class="w-2 h-2 rounded-full bg-[#60A5FA]"></span>
+                    <span class="w-1 h-1 rounded-full bg-[#93C5FD]/60"></span>
+                </div>
+            </footer>
+
+        </main>
+    </div>
+
+    <!-- Notifikasi Toast Terapung (Pengesahan Salin Pautan) -->
+    <div id="toastNotice" role="status" aria-live="polite"
+         class="toast-notice fixed bottom-5 left-1/2 z-50 px-4 py-2.5 rounded-full bg-slate-800/90 text-white text-xs font-medium shadow-lg backdrop-blur-md flex items-center gap-2 whitespace-nowrap">
+        <i class="fa-solid fa-circle-check text-[#93C5FD]"></i>
+        <span id="toastText">Pautan berjaya disalin</span>
+    </div>
+
+    <script>
+        (function () {
+            'use strict';
+
+            /* =========================================================
+               1. PENAPIS TAB KATEGORI & INTERAKSI SERASI JOTFORM IFRAME
+               ========================================================= */
+            let toastTimer = null;
+
+            /**
+             * Menukar tab aktif dan mengemaskini paparan bahagian
+             */
+            function setActiveTab(tabName) {
+                document.querySelectorAll('.tab-pill').forEach(function (btn) {
+                    const isActive = btn.dataset.tab === tabName;
+                    btn.classList.toggle('active', isActive);
+                    btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+                });
+
+                const secBuku = document.getElementById('sectionBukuTeks');
+                const secDskp = document.getElementById('sectionDskp');
+
+                if (secBuku) {
+                    secBuku.classList.toggle('hidden', tabName !== 'semua' && tabName !== 'bukuteks');
+                }
+                if (secDskp) {
+                    secDskp.classList.toggle('hidden', tabName !== 'semua' && tabName !== 'dskp');
+                }
+
+                // Maklumkan ketinggian baharu kepada iframe Jotform
+                notifyParentIframeHeight();
+            }
+
+            /**
+             * Memaparkan mesej toast ringkas (menggantikan alert() yang disekat dalam iframe)
+             */
+            function showToast(message) {
+                const toast = document.getElementById('toastNotice');
+                const toastText = document.getElementById('toastText');
+                if (!toast || !toastText) return;
+
+                toastText.textContent = message;
+                toast.classList.add('show');
+
+                if (toastTimer) clearTimeout(toastTimer);
+                toastTimer = setTimeout(function () {
+                    toast.classList.remove('show');
+                }, 2600);
+            }
+
+            /**
+             * Menyalin pautan dengan kaedah selamat iframe (document.execCommand)
+             */
+            function copyLinkSafely(url, label) {
+                try {
+                    const tempInput = document.createElement('textarea');
+                    tempInput.value = url;
+                    tempInput.setAttribute('readonly', '');
+                    tempInput.style.position = 'fixed';
+                    tempInput.style.top = '-9999px';
+                    tempInput.style.left = '-9999px';
+                    document.body.appendChild(tempInput);
+
+                    tempInput.focus();
+                    tempInput.select();
+                    tempInput.setSelectionRange(0, tempInput.value.length);
+
+                    const copied = document.execCommand('copy');
+                    document.body.removeChild(tempInput);
+
+                    if (copied) {
+                        showToast((label || 'Pautan') + ' berjaya disalin!');
+                    } else {
+                        showToast('Sila tekan butang buka untuk akses terus.');
+                    }
+                } catch (err) {
+                    showToast('Sila tekan butang buka untuk akses terus.');
+                }
+            }
+
+            /* =========================================================
+               2. PENYELARASAN KETINGGIAN AUTOMATIK UNTUK JOTFORM EMBED
+               ========================================================= */
+            function notifyParentIframeHeight() {
+                try {
+                    if (window.self === window.top) return;
+
+                    const height = Math.max(
+                        document.body.scrollHeight,
+                        document.documentElement.scrollHeight
+                    );
+
+                    // Sokongan Jotform Custom Widget API
+                    if (window.JFCustomWidget && typeof window.JFCustomWidget.requestFrameResize === 'function') {
+                        window.JFCustomWidget.requestFrameResize({ height: height + 16 });
+                    }
+
+                    // Sokongan mesej piawai untuk Jotform Iframe Embed
+                    window.parent.postMessage('setHeight:' + (height + 16), '*');
+                    window.parent.postMessage({ type: 'setHeight', height: height + 16 }, '*');
+                } catch (err) {
+                    // Abaikan sekatan silang-asal (cross-origin)
+                }
+            }
+
+            /* =========================================================
+               3. PENGIKATAN ACARA INTERAKTIF & FALLBACK GAMBAR
+               ========================================================= */
+            function initInteractiveControls() {
+                // Tab Penapis & Navigasi Papan Kekunci
+                const tabButtons = Array.prototype.slice.call(document.querySelectorAll('.tab-pill'));
+                tabButtons.forEach(function (btn, idx) {
+                    btn.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        setActiveTab(btn.dataset.tab || 'semua');
+                    });
+
+                    btn.addEventListener('keydown', function (e) {
+                        if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+                            e.preventDefault();
+                            const dir = e.key === 'ArrowRight' ? 1 : -1;
+                            const nextBtn = tabButtons[(idx + dir + tabButtons.length) % tabButtons.length];
+                            if (nextBtn) {
+                                nextBtn.focus();
+                                setActiveTab(nextBtn.dataset.tab || 'semua');
+                            }
+                        }
+                    });
+                });
+
+                // Butang Salin Pautan
+                document.querySelectorAll('.copy-link-btn').forEach(function (btn) {
+                    btn.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        const url = btn.getAttribute('data-copy-url');
+                        const label = btn.getAttribute('data-copy-label');
+                        if (url) copyLinkSafely(url, label);
+                    });
+                });
+
+                // Pengendalian fallback gambar (tiada inline onerror untuk keserasian CSP)
+                document.querySelectorAll('.cover-img').forEach(function (img) {
+                    img.addEventListener('error', function () {
+                        img.style.display = 'none';
+                        const fallback = img.nextElementSibling;
+                        if (fallback && fallback.classList.contains('cover-fallback')) {
+                            fallback.classList.remove('hidden');
+                        }
+                    });
+
+                    if (!img.complete) {
+                        img.addEventListener('load', notifyParentIframeHeight);
+                    }
+                });
+
+                // Pantau perubahan ketinggian dokumen untuk iframe Jotform
+                if (typeof ResizeObserver !== 'undefined') {
+                    try {
+                        const observer = new ResizeObserver(function () {
+                            notifyParentIframeHeight();
+                        });
+                        observer.observe(document.body);
+                    } catch (err) {
+                        // Abaikan jika ResizeObserver tidak disokong
+                    }
+                }
+            }
+
+            /* =========================================================
+               4. KANVAS ZARAH CAHAYA BIRU LEMBUT (TEMA ASAL)
+               ========================================================= */
+            const canvas = document.getElementById('sparkleCanvas');
+            const ctx = canvas ? canvas.getContext('2d') : null;
+            let particles = [];
+            let animFrameId = null;
+
+            function resizeCanvas() {
+                if (!canvas) return;
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+
+            function Sparkle() {
+                this.reset(true);
+            }
+
+            Sparkle.prototype.reset = function (initial) {
+                this.x = Math.random() * (canvas ? canvas.width : window.innerWidth);
+                this.y = initial
+                    ? Math.random() * (canvas ? canvas.height : window.innerHeight)
+                    : (canvas ? canvas.height : window.innerHeight) + 15;
+                this.size = Math.random() * 2.4 + 0.9;
+                this.speedY = -(Math.random() * 0.22 + 0.08);
+                this.speedX = (Math.random() - 0.5) * 0.12;
+                this.opacity = Math.random() * 0.38 + 0.14;
+                const colors = [
+                    'rgba(147, 197, 253, ',
+                    'rgba(96, 165, 250, ',
+                    'rgba(186, 230, 253, ',
+                    'rgba(255, 255, 255, '
+                ];
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+            };
+
+            Sparkle.prototype.update = function () {
+                this.y += this.speedY;
+                this.x += this.speedX;
+                if (this.y < -15) this.reset(false);
+            };
+
+            Sparkle.prototype.draw = function () {
+                if (!ctx) return;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color + this.opacity + ')';
+                ctx.shadowBlur = 5;
+                ctx.shadowColor = 'rgba(255, 255, 255, 0.45)';
+                ctx.fill();
+            };
+
+            function animateCanvas() {
+                if (!ctx || !canvas) return;
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                for (let i = 0; i < particles.length; i++) {
+                    particles[i].update();
+                    particles[i].draw();
+                }
+                animFrameId = window.requestAnimationFrame(animateCanvas);
+            }
+
+            function initCanvasEngine() {
+                if (!ctx || !canvas) return;
+                resizeCanvas();
+                particles = [];
+                for (let i = 0; i < 28; i++) {
+                    particles.push(new Sparkle());
+                }
+                if (animFrameId) window.cancelAnimationFrame(animFrameId);
+                animateCanvas();
+            }
+
+            /* =========================================================
+               5. PERMULAAN APLIKASI
+               ========================================================= */
+            function bootstrapPortal() {
+                initInteractiveControls();
+                notifyParentIframeHeight();
+                initCanvasEngine();
+            }
+
+            window.addEventListener('resize', function () {
+                resizeCanvas();
+                notifyParentIframeHeight();
+            });
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', bootstrapPortal);
+            } else {
+                bootstrapPortal();
+            }
+            window.addEventListener('load', notifyParentIframeHeight);
+        })();
+    </script>
+</body>
+</html>
